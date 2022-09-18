@@ -30,6 +30,7 @@
     <input type="button" onclick="getIndexByClassName()" value="currentクラスがついている要素は何番目か？">
   </div>
   <script>
+  // リスト全体を取得しておく。
   const lists = document.querySelectorAll('#main-bnr>.rb-btn>li');
   lists.forEach(list => {
       list.addEventListener('click', listClick);
