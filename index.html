@@ -1,0 +1,86 @@
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>jsでクリックした要素のindexを取得する</title>
+    <style>
+      .rb-btn > li {
+          cursor: pointer;
+          border: 1px solid #ddd;
+          margin-bottom: 1rem;
+          list-style: none;
+      }
+      .rb-btn > li.current {
+          background: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="main-bnr">
+    <ul class="rb-btn">
+      <li ><span>9/16～！<br>10日間限定</span><span class="cbg" style="display: none;"></span></li>
+      <li ><span>ゆらぎ肌に <br>鎮静コスメ</span><span class="cbg" style="display: none;"></span></li>
+      <li ><span>秋新作コスメ<br>大集合！</span><span class="cbg" style="display: none;"></span></li>
+      <li ><span>日焼けや乾燥<br>ほてりに！</span><span class="cbg" style="display: inline;"></span></li>
+    </ul>
+  </div>
+  <div>
+    <div>
+      dev toolのコンソールで実行結果を確認してね。
+    </div>
+    <input type="button" onclick="getIndexByClassName()" value="currentクラスがついている要素は何番目か？">
+  </div>
+  <script>
+  const lists = document.querySelectorAll('#main-bnr>.rb-btn>li');
+  lists.forEach(list => {
+      list.addEventListener('click', listClick);
+  });
+
+  /**
+   * リストがクリックされた時のfunction
+   * @param e
+   */
+  function listClick(e) {
+      // クリックした要素を取得
+      const target = e.target
+
+      const currentClass = "current"
+      // currentがついている要素からを外す
+      const currentList = document.querySelectorAll('#main-bnr>.rb-btn>li.current');
+      currentList.forEach(list => {
+          list.classList.remove(currentClass)
+      })
+      // e.targetにcurrentクラスをつける
+      target.classList.add(currentClass)
+
+
+      // ここから、順番の取得。
+      // @NOTE パフォーマンスは考慮していない
+      let index = undefined
+      lists.forEach((list, i) => {
+          if(list === target) {
+              index = i
+          }
+      })
+
+      console.log(`今クリックされたのは、....`)
+      console.log(`${index}番目 !!!`)
+  }
+
+  /**
+   * 指定のクラスを持っている要素はリストの何番目かを取得する
+   * クラス名でindexを取得するやりかた
+   */
+  function getIndexByClassName(currentClass = "current") {
+      let index = undefined
+      lists.forEach((l, i) => {
+          const matched = l.className.match(currentClass)
+          if(matched) {
+              index = i
+          }
+      })
+      console.log(`現在currentクラスがついているのは....`)
+      console.log(`${index}番目 !!!`)
+  }
+  </script>
+  </body>
+</html>
